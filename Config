@@ -1,0 +1,36 @@
+# AIRealms Configuration
+
+database:
+  host: localhost
+  port: 5432
+  name: airealms_db
+  user: airealms_user
+  password: secure_password
+
+blockchain:
+  network: rinkeby
+  rpc_url: https://rinkeby.infura.io/v3/YOUR_INFURA_PROJECT_ID
+  contract_address: 0xYourContractAddress
+
+logging:
+  level: INFO
+  file: logs/airealms.log
+
+sdk:
+  api_key: YOUR_SDK_API_KEY
+  base_url: https://sdk.airealms.io
+
+frontend:
+  api_url: http://localhost:5000/api
+
+deployment:
+  environments:
+    - name: development
+      description: Local development environment
+      backend_url: http://localhost:5000
+      frontend_url: http://localhost:3000
+
+    - name: production
+      description: Production environment
+      backend_url: https://api.airealms.io
+      frontend_url: https://www.airealms.io
