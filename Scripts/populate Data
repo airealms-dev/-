@@ -1,0 +1,72 @@
+import json
+import os
+
+# Example data directories
+data_directories = [
+    "../data/npc_behavior/",
+    "../data/world_templates/"
+]
+
+# Example NPC data
+default_npc_data = [
+    {
+        "name": "Guardian",
+        "role": "Defender of the Realm",
+        "attributes": {"strength": 80, "intelligence": 60, "agility": 50},
+        "dialogues": ["Halt! Who goes there?", "You shall not pass!"],
+    },
+    {
+        "name": "Merchant",
+        "role": "Trader of Rare Goods",
+        "attributes": {"strength": 30, "intelligence": 90, "agility": 40},
+        "dialogues": ["Care to see my wares?", "Everything has a price!"],
+    }
+]
+
+# Example world template data
+default_world_templates = [
+    {
+        "name": "Mystic Forest",
+        "description": "A lush, magical forest filled with ancient secrets and dangerous creatures.",
+        "difficulty": 3,
+    },
+    {
+        "name": "Crystal Caves",
+        "description": "A network of sparkling caves, home to both treasures and traps.",
+        "difficulty": 5,
+    }
+]
+
+def ensure_directory_exists(directory):
+    """Creates a directory if it does not exist."""
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+def save_json(data, filepath):
+    """Saves data to a JSON file."""
+    with open(filepath, 'w') as json_file:
+        json.dump(data, json_file, indent=4)
+        print(f"Data saved to {filepath}")
+
+def populate_npc_behavior():
+    """Populates NPC behavior data."""
+    directory = data_directories[0]
+    ensure_directory_exists(directory)
+    filepath = os.path.join(directory, "npc_data.json")
+    save_json(default_npc_data, filepath)
+
+def populate_world_templates():
+    """Populates world template data."""
+    directory = data_directories[1]
+    ensure_directory_exists(directory)
+    filepath = os.path.join(directory, "world_templates.json")
+    save_json(default_world_templates, filepath)
+
+if __name__ == "__main__":
+    try:
+        print("Populating data directories...")
+        populate_npc_behavior()
+        populate_world_templates()
+        print("Data population complete.")
+    except Exception as e:
+        print(f"Error during data population: {e}")
