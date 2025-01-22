@@ -1,0 +1,143 @@
+# API Reference
+
+## Overview
+This document provides an overview of the API endpoints available in the AIRealms ecosystem. The APIs support functionality for AI agents, tokenomics, and player interactions.
+
+---
+
+## Base URL
+- **Development**: `http://localhost:5000/api`
+- **Production**: `https://api.airealms.io/api`
+
+---
+
+## Endpoints
+
+### **Agents**
+#### 1. `GET /agents`
+- **Description**: Retrieve a list of available AI agents.
+- **Response**:
+  ```json
+  [
+    {
+      "id": "1",
+      "name": "Guardian",
+      "role": "Defender of the Realm",
+      "status": "active"
+    },
+    {
+      "id": "2",
+      "name": "Merchant",
+      "role": "Trader of Rare Goods",
+      "status": "idle"
+    }
+  ]
+  ```
+
+#### 2. `POST /agents/{id}/interact`
+- **Description**: Interact with a specific AI agent.
+- **Request Body**:
+  ```json
+  {
+    "message": "What are your wares?"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "response": "I have rare potions and artifacts for sale."
+  }
+  ```
+
+---
+
+### **Tokenomics**
+#### 1. `GET /tokenomics/balance`
+- **Description**: Retrieve the $REALM token balance for a specific wallet.
+- **Request Parameters**:
+  - `wallet_address` (string, required): The wallet address to query.
+- **Response**:
+  ```json
+  {
+    "wallet_address": "0xYourWalletAddress",
+    "balance": "1000.0"
+  }
+  ```
+
+#### 2. `POST /tokenomics/transfer`
+- **Description**: Transfer $REALM tokens from one wallet to another.
+- **Request Body**:
+  ```json
+  {
+    "from": "0xSenderWalletAddress",
+    "to": "0xReceiverWalletAddress",
+    "amount": "50.0"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "transaction_id": "0xTransactionHash",
+    "status": "success"
+  }
+  ```
+
+---
+
+### **Gameplay**
+#### 1. `GET /quests`
+- **Description**: Retrieve available quests for a player.
+- **Response**:
+  ```json
+  [
+    {
+      "id": "101",
+      "title": "Defend the Mystic Forest",
+      "reward": "500 $REALM",
+      "difficulty": 3
+    },
+    {
+      "id": "102",
+      "title": "Explore the Crystal Caves",
+      "reward": "800 $REALM",
+      "difficulty": 5
+    }
+  ]
+  ```
+
+#### 2. `POST /quests/{id}/complete`
+- **Description**: Mark a quest as completed by the player.
+- **Request Body**:
+  ```json
+  {
+    "player_id": "12345",
+    "completion_time": "2025-01-23T14:55:00Z"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "status": "success",
+    "reward": "500 $REALM"
+  }
+  ```
+
+---
+
+## Error Responses
+All endpoints will return an error object in case of failure:
+```json
+{
+  "error": {
+    "code": 400,
+    "message": "Invalid request."
+  }
+}
+```
+
+---
+
+## Notes
+- All requests should include the necessary authentication headers.
+- Ensure you replace `{id}` in endpoints with the actual ID of the agent, quest, or other relevant entity.
+
