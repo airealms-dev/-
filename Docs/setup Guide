@@ -1,0 +1,122 @@
+# Setup Guide
+
+## Introduction
+This setup guide walks you through the process of configuring and running the AIRealms ecosystem locally for development or testing purposes.
+
+---
+
+## Prerequisites
+Ensure the following software is installed on your system:
+- **Python 3.8+**
+- **Node.js (v14 or later)**
+- **npm** or **yarn**
+- **Hardhat** for smart contract development
+- **PostgreSQL** for database management
+- **Git**
+
+---
+
+## Step 1: Clone the Repository
+```bash
+git clone https://github.com/YourOrganization/AIRealms.git
+cd AIRealms
+```
+
+---
+
+## Step 2: Backend Setup
+
+### Install Dependencies
+Navigate to the backend directory and install Python dependencies:
+```bash
+cd backend
+pip install -r requirements.txt
+```
+
+### Configure Environment Variables
+Create a `.env` file in the `backend` directory with the following details:
+```
+DATABASE_URL=postgresql://username:password@localhost:5432/airealms_db
+SECRET_KEY=your_secret_key
+BLOCKCHAIN_RPC_URL=https://rinkeby.infura.io/v3/YOUR_INFURA_PROJECT_ID
+```
+
+### Run Database Migrations
+```bash
+flask db upgrade
+```
+
+### Start the Backend Server
+```bash
+python app.py
+```
+
+The backend server should now be running at `http://localhost:5000`.
+
+---
+
+## Step 3: Frontend Setup
+
+### Install Dependencies
+Navigate to the frontend directory:
+```bash
+cd ../frontend
+npm install
+```
+
+### Start the Development Server
+```bash
+npm start
+```
+
+The frontend server should now be running at `http://localhost:3000`.
+
+---
+
+## Step 4: Blockchain Setup
+
+### Install Hardhat
+If you don't have Hardhat installed, run:
+```bash
+npm install --save-dev hardhat
+```
+
+### Compile Smart Contracts
+Navigate to the blockchain directory:
+```bash
+cd ../blockchain
+npx hardhat compile
+```
+
+### Deploy Contracts
+Deploy the $REALM token contract to a test network:
+```bash
+npx hardhat run scripts/deploy.js --network rinkeby
+```
+
+Note the deployed contract address for future use.
+
+---
+
+## Step 5: Configuration
+Update the `config.yaml` file with your environment-specific details, such as the deployed contract address and API keys.
+
+---
+
+## Step 6: Run the Complete Ecosystem
+1. Start the backend server.
+2. Start the frontend server.
+3. Interact with the deployed smart contracts via the frontend.
+
+---
+
+## Troubleshooting
+- **Database Connection Issues**: Ensure PostgreSQL is running and the `DATABASE_URL` in `.env` is correctly configured.
+- **Contract Deployment Errors**: Verify your RPC URL and wallet private key are correctly set up.
+- **Frontend Fails to Start**: Ensure all dependencies are installed and the backend is running.
+
+---
+
+## Contact
+For setup support, contact the AIRealms team at support@airealms.io.
+
