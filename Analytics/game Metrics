@@ -1,0 +1,52 @@
+import json
+from datetime import datetime
+
+class GameMetrics:
+    def __init__(self):
+        self.metrics = {
+            "active_players": 0,
+            "quests_completed": 0,
+            "tokens_earned": 0,
+            "npc_interactions": 0,
+            "last_updated": str(datetime.utcnow()),
+        }
+
+    def update_active_players(self, count):
+        self.metrics["active_players"] += count
+        self.metrics["last_updated"] = str(datetime.utcnow())
+
+    def increment_quests_completed(self):
+        self.metrics["quests_completed"] += 1
+        self.metrics["last_updated"] = str(datetime.utcnow())
+
+    def add_tokens_earned(self, amount):
+        self.metrics["tokens_earned"] += amount
+        self.metrics["last_updated"] = str(datetime.utcnow())
+
+    def increment_npc_interactions(self):
+        self.metrics["npc_interactions"] += 1
+        self.metrics["last_updated"] = str(datetime.utcnow())
+
+    def get_metrics(self):
+        return self.metrics
+
+    def save_metrics_to_file(self, file_path):
+        try:
+            with open(file_path, 'w') as file:
+                json.dump(self.metrics, file, indent=4)
+            print(f"Metrics saved to {file_path}")
+        except Exception as e:
+            print(f"Error saving metrics: {e}")
+
+if __name__ == "__main__":
+    metrics = GameMetrics()
+
+    # Simulate updates
+    metrics.update_active_players(5)
+    metrics.increment_quests_completed()
+    metrics.add_tokens_earned(500)
+    metrics.increment_npc_interactions()
+
+    # Print and save metrics
+    print(json.dumps(metrics.get_metrics(), indent=4))
+    metrics.save_metrics_to_file("game_metrics.json")
