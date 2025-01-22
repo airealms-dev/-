@@ -1,0 +1,44 @@
+from web3 import Web3
+import json
+
+class TokenAnalytics:
+    def __init__(self, rpc_url, contract_address, abi_path):
+        self.web3 = Web3(Web3.HTTPProvider(rpc_url))
+        if not self.web3.isConnected():
+            raise ConnectionError("Failed to connect to blockchain network.")
+
+        with open(abi_path, 'r') as abi_file:
+            abi = json.load(abi_file)
+
+        self.contract = self.web3.eth.contract(address=contract_address, abi=abi)
+
+    def get_total_supply(self):
+        return self.contract.functions.totalSupply().call()
+
+    def get_balance(self, wallet_address):
+        return self.contract.functions.balanceOf(wallet_address).call()
+
+    def get_transaction_count(self, wallet_address):
+        return self.web3.eth.get_transaction_count(wallet_address)
+
+if __name__ == "__main__":
+    RPC_URL = "https://rinkeby.infura.io/v3/YOUR_INFURA_PROJECT_ID"
+    CONTRACT_ADDRESS = "0xYourTokenContractAddress"
+    ABI_PATH = "../blockchain/contracts/Token.json"
+
+    analytics = TokenAnalytics(RPC_URL, CONTRACT_ADDRESS, ABI_PATH)
+
+    # Display total supply
+    total_supply = analytics.get_total_supply()
+    print(f"Total Supply: {total_supply / 10**18} $REALM")
+
+    # Example wallet address
+    WALLET_ADDRESS = "0xYourWalletAddress"
+
+    # Display wallet balance
+    balance = analytics.get_balance(WALLET_ADDRESS)
+    print(f"Balance of {WALLET_ADDRESS}: {balance / 10**18} $REALM")
+
+    # Display transaction count
+    tx_count = analytics.get_transaction_count(WALLET_ADDRESS)
+    print(f"Transaction count for {WALLET_ADDRESS}: {tx_count}")
